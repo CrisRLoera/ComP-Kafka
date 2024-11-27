@@ -12,3 +12,19 @@ Una vez clonado este proyecto, y dentro de la ruta de este proyecto, se ejecuta 
     docker-compose up -d
 ```
 
+## Crear topicos
+
+Una vez creados los contenedores vamos a crear los topicos entrando a el contenedor de kafka
+
+```bash
+docker exec -it kafka bash
+```
+Y mediante el siguiente comando creamos un topic básico en kafka
+```
+kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic "NASA"
+
+```
+
+## Productor
+
+Para pruducir un log en kafka solamente se debe de ejecutar el script de python
