@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Asteroid and Weather Data</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1d1f27; /* Fondo oscuro */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* Fondo de la página */
+        header {
+            background-image: url('https://source.unsplash.com/1600x900/?space,galaxy'); 
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Título principal */
+        h1 {
+            font-size: 2.5rem;
+            margin: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Contenedor de los datos */
+        .data-container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            max-width: 500px;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Estilo para las etiquetas de los datos */
+        p {
+            font-size: 1.1rem;
+            margin: 10px;
+            text-align: left;
+        }
+
+        /* Indicador de estado */
+        .observation-yes {
+            color: #4caf50; /* Verde */
+        }
+
+        .observation-no {
+            color: #f44336; /* Rojo */
+        }
+
+        /* Estilo para la hora */
+        #timestamp {
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* Animación del contenido */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Real-Time Asteroid and Weather Data</h1>
+</header>
+
+<div class="data-container">
+    <p id="asteroid_name" class="fade-in">Asteroid Name: </p>
+    <p id="distance_km" class="fade-in">Distance: </p>
+    <p id="climate" class="fade-in">Climate: </p>
+    <p id="timestamp" class="fade-in">Timestamp: </p>
+    <p id="observation_possible" class="fade-in">Observation Possible: </p>
+</div>
+
+<script>
+    var socket = io();
+
+    // Recibir los datos a través del WebSocket
+    socket.on('new_data', function(data) {
+        document.getElementById("asteroid_name").textContent = "Asteroid: " + data.asteroid_name;
+        document.getElementById("distance_km").textContent = "Distance: " + data.distance_km + " km";
+        document.getElementById("climate").textContent = "Climate: " + data.climate;
+        document.getElementById("timestamp").textContent = "Timestamp: " + new Date(data.timestamp * 1000).toLocaleString();
+        
+        var observationText = data.observation_possible ? "Yes" : "No";
+        var observationClass = data.observation_possible ? "observation-yes" : "observation-no";
+        document.getElementById("observation_possible").textContent = "Observation Possible: " + observationText;
+        document.getElementById("observation_possible").className = "fade-in " + observationClass;
+    });
+</script>
+
+</body>
+</html>

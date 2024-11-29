@@ -21,10 +21,17 @@ docker exec -it kafka bash
 ```
 Y mediante el siguiente comando creamos un topic básico en kafka
 ```
-kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic "NASA"
+kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic "weatherData"
+kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic "asteroidsData"
 
 ```
 
 ## Productor
 
 Para pruducir un log en kafka solamente se debe de ejecutar el script de python
+
+## Consumer
+
+El consumidor se ejecuta mediante el script de python, una vez ejecutado se puede ver el visualizador en
+
+http://localhost:5000/
